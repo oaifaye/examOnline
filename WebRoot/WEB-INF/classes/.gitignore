@@ -1,5 +1,2 @@
-/applicationContext.xml
+/.gitignore
 /com
-/log4j.properties
-/sqlMapConfig.xml
-/struts.xml

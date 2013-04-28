@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 开发模式 -->
+	<constant name="struts.devMode"  value="true"/>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.i18n.encoding" value="utf-8" />   
+    <!-- 加入下面的配置修改struts.xml不需重启服务 --> 
+	<constant name="struts.configuration.xml.reload" value="true"/>
+	<constant name="struts.multipart.maxSize" value="5242880"/>
+
+<!-- 后台 开始 -->
+	<package name="backend" extends="struts-default" namespace="/">
+	<!-- 登录验证拦截器 -->
+		<interceptors>
+			<interceptor name="authority" class="com.interceptor.AuthorizationInterceptor">
+				<param name="excludemethods">login</param>
+			</interceptor>
+			<interceptor-stack name="authorityStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="authority"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- <default-interceptor-ref name="authorityStack"></default-interceptor-ref> -->
+		<!-- 全局result -->
+		<global-results>
+			<result name="relogin">/backend/login.jsp</result>
+		</global-results>
+		
+		<action name="loginBackend" class="managerAction" method="login">
+			<result name="success" type="redirect">${nextAction}</result>
+			<result name="error">backend/login.jsp</result>
+			<result name="input">backend/login.jsp</result>
+		</action>
+		
+	<!-- 基础信息 -->
+		<action name="initBaseInfo" class="com.action.BaseInfoAction" method="initBaseInfo">
+		    <result name="success">backend/editBaseInfo.jsp</result>
+		</action>
+		<action name="addBase*" class="com.action.BaseInfoAction" method="addBase{1}">
+		    <result name="success" type="redirect" >initBaseInfo</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		
+	<!-- 试题信息 -->
+		<action name="initQuestion" class="com.action.QuestionAction" method="initQuestion">
+		    <result name="success">/backend/editQuestion.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="addQuestion" class="com.action.QuestionAction" method="addQuestion">
+		    <result name="success" type="redirect">listQuestion.action?isDelete=1&amp;gradeLevel=${gradeLevel}</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="listQuestion" class="com.action.QuestionAction" method="listQuestion">
+		    <result name="success">/backend/listQuestion.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="editQuestion" class="com.action.QuestionAction" method="editQuestion">
+		    <result name="success">/backend/editQuestion.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+	<!-- 试卷信息 -->
+		<action name="initPaper" class="com.action.PaperAction" method="initPaper">
+		    <result name="success">/backend/editPaper.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="listPaper" class="com.action.PaperAction" method="listPaper">
+		    <result name="success">/backend/listPaper.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="addPaper" class="com.action.PaperAction" method="addPaper">
+		    <result name="success" type="redirect" >listPaper.action?isDelete=1&amp;gradeLevel=${gradeLevel}</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="editPaper" class="com.action.PaperAction" method="editPaper">
+		    <result name="success">/backend/editPaper.jsp</result>
+		    <result name="error">404.jsp</result>
+		</action>
+		<action name="releasePaper" class="com.action.PaperAction" method="releasePaper">
+		    <result name="success" type="redirect" >listPaper.action?isDelete=1&amp;gradeLevel=${gradeLevel}&amp;currentPage=${currentPage}</result>
+		    <result name="error">404.jsp</result>
+		</action>
+	</package>
+	
+<!-- 后台 结束 -->
+
+<!-- 前台开始 -->
+	<package name="frontend" extends="struts-default" >
+	    <!-- 登录验证拦截器 -->
+		<interceptors>
+			<interceptor name="memberInterceptor" class="com.interceptor.MemberInterceptor">
+				<param name="excludemethods">login</param>
+			</interceptor>
+			<interceptor-stack name="memberStack">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="memberInterceptor"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="memberStack"></default-interceptor-ref>
+		<!-- 全局result -->
+		<global-results>
+			<result name="relogin" >logout.jsp</result>
+		</global-results>
+		
+		<action name="loginFrontend" class="memberAction" method="login">
+			<result name="success">frontend/memberIndex.jsp</result>
+			<result name="error">login.jsp</result>
+		</action>
+		
+		<action name="*Frontend" class="studentTestAction" method="{1}">
+		    <result name="listPaper">frontend/memberIndex.jsp</result>
+		    <result name="initQuestion" type="redirect">initQuestionFrontend</result>
+		    <result name="answering">frontend/answering.jsp</result>
+		    <result name="initResult" type="redirect">initResultFrontend</result>
+		    <result name="result">frontend/result.jsp</result>
+		    <result name="exception">frontend/exception.jsp</result>
+		    <result name="error">400.jsp</result>
+		</action>
+	</package>
+<!-- 前台结束 -->
+</struts>

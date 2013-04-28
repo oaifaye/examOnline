@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd" >
+        
+	<!-- 配置数据源 -->  
+    <bean id="dataSourceP"
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/>
+		<property name="url" value="jdbc:jtds:sqlserver://127.0.0.1:3898/examOnlinedb"/>
+		<property name="username" value="sa"/>
+		<property name="password" value="123456"/>
+	</bean>
+	<!-- 配置sql打印-->
+        <bean id="dataSource" class="com.p6spy.engine.spy.P6DataSource">
+        	<constructor-arg>
+				<ref bean="dataSourceP" />
+			</constructor-arg>
+		</bean>
+	<!-- 配置数据工厂-->
+        <bean id="sqlMapClient"  
+            class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+            <property name="configLocation">  
+                <value>classpath:sqlMapConfig.xml</value>  
+            </property>  
+            <property name="dataSource" ref="dataSource" />
+        </bean>  
+	<!-- Spring配置事务管理者-->  
+        <bean id="txManager"  
+            class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
+            <property name="dataSource">  
+                <ref local="dataSource" />  
+            </property>  
+        </bean>
+	<!-- 配置建议 -->
+        <tx:advice id ="txAdvice" transaction-manager="txManager">
+          <tx:attributes>
+            <tx:method name="select *" read-only ="true"/>
+            <tx:method name="find *" read-only ="true"/>
+            <tx:method name="*"  propagation="REQUIRED"/>
+          </tx:attributes>
+        </tx:advice>
+	<!--追加切面配置,并给切入点注入建议  -->
+        <aop:config>
+          <aop:pointcut id= "bussinessService" expression="execution(* service..*.*(..))" />  
+          <aop:advisor pointcut-ref="bussinessService" advice-ref="txAdvice"/>
+        </aop:config>
+        
+        
+	<!-- DAO 注入开始 -->
+		<!-- abstract属性 表示baseDao是一个抽象Bean，Spring不直接实例化，而是其他Bean的基础   -->
+        <bean id="baseDao" abstract="true"  class="com.base.IbatisGenericDaoImpl"> 
+        	<property name="dataSource">  
+                <ref local="dataSource" />  
+            </property>  
+            <property name="sqlMapClient">  
+                <ref local="sqlMapClient" />  
+            </property> 
+        </bean>
+    
+    	<bean id="managerDAO" class="com.dao.login.ManagerDAOImpl" parent="baseDao"></bean> 
+    	<bean id="gradeInfoDAO" class="com.dao.gradeInfo.GradeInfoDAOImpl" parent="baseDao"></bean> 
+    	<bean id="courseInfoDAO" class="com.dao.courseInfo.CourseInfoDAOImpl" parent="baseDao"></bean> 
+    	<bean id="questionDAO" class="com.dao.question.QuestionDAOImpl" parent="baseDao"></bean> 
+    	<bean id="questionMaterialDAO" class="com.dao.questionMaterial.QuestionMaterialDAOImpl" parent="baseDao"></bean> 
+    	<bean id="paperDAO" class="com.dao.paper.PaperDAOImpl" parent="baseDao"></bean> 
+    	<bean id="memberDAO" class="com.dao.member.MemberDAOImpl" parent="baseDao"></bean> 
+    <!-- DAO 注入结束 -->
+    
+    
+    <!-- 部署用户业务逻辑组件ServiceImpl 开始 --> 
+    	<!-- 后台登录 -->
+		<bean id="managerService" class="com.service.login.ManagerServiceImpl">
+			<property name="managerDAO" ref="managerDAO" />
+    	</bean>
+    	<!-- 基础信息 -->
+		<bean id="baseInfoService" class="com.service.baseInfo.BaseInfoServiceImpl">
+			<property name="gradeInfoDAO" ref="gradeInfoDAO"/>
+			<property name="courseInfoDAO" ref="courseInfoDAO"/>
+    	</bean>
+    	<!-- 试题信息 -->
+		<bean id="questionService" class="com.service.question.QuestionServiceImpl">
+			<property name="questionDAO" ref="questionDAO"/>
+			<property name="questionMaterialDAO" ref="questionMaterialDAO"/>
+    	</bean>
+    	<!-- 试卷信息 -->
+    	<bean id="paperService" class="com.service.paper.PaperServiceImpl">
+			<property name="paperDAO" ref="paperDAO"/>
+			<property name="questionDAO" ref="questionDAO"/>
+    	</bean>
+    	<!-- 前台登陆 -->
+    	<bean id="memberService" class="com.service.member.MemberServiceImpl">
+			<property name="memberDAO" ref="memberDAO"/>
+    	</bean>
+    	
+    <!-- 将service组件注入Action 开始--> 
+    	<!-- 后台登录 -->
+    	<bean id="managerAction" class="com.action.ManagerAction" scope="prototype" >
+    		<property name="managerService" ref="managerService"/>
+    	</bean>
+    	<!-- 基础信息 -->
+		<bean id="baseInfoAction" class="com.action.BaseInfoAction">
+    		<property name="baseInfoService" ref="baseInfoService"/>
+		</bean>
+		<!-- 试题信息 -->
+		<bean id="questionAction" class="com.action.QuestionAction">
+    		<property name="baseInfoService" ref="baseInfoService"/>
+    		<property name="questionService" ref="questionService"/>
+		</bean>
+		<!-- 试卷信息 -->
+		<bean id="paperAction" class="com.action.PaperAction">
+    		<property name="baseInfoService" ref="baseInfoService"/>
+    		<property name="paperService" ref="paperService"/>
+		</bean>
+		<!-- 前台登录 -->
+		<bean id="memberAction" class="com.action.MemberAction" scope="prototype">
+    		<property name="memberService" ref="memberService"/>
+		</bean>
+		<!-- 前台学员答题 -->
+		<bean id="studentTestAction" class="com.action.StudentTestAction" >
+    		<property name="paperService" ref="paperService"/>
+    		<property name="questionService" ref="questionService"/>
+		</bean>
+		
+<!-- AOPTEST -->
+	<bean id="aspect" class="com.aop.AspectAdvice" />
+	<bean id="aspect2" class="com.aop.AspectAdvice2" />
+	<aop:config proxy-target-class="true"> <!--  强制使用cglib  -->
+		<aop:pointcut id="pointcutx" expression="execution(* *.login(..))"/>  <!-- 定义切点，把通知应用到所有的 direct方法 -->
+		<aop:aspect ref="aspect">
+			<aop:after pointcut-ref="pointcutx" method="after"/> <!--  定义后通知引用切点 -->
+			<aop:after pointcut-ref="pointcutx" method="after1"/>
+		</aop:aspect>
+		<aop:aspect ref="aspect2">
+			<aop:after pointcut-ref="pointcutx" method="after"/> <!--  定义后通知引用切点 -->
+			<aop:after pointcut-ref="pointcutx" method="after1"/>
+		</aop:aspect>
+	</aop:config>  
+</beans>
