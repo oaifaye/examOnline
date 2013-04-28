@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+/* BUTTONS */
+/*橘黄色*/
+.button1{
+	display:block;
+	background-color:#FFAA33;
+	border:1px solid #EE7700;
+	font-size:16px;
+	font-weight:bold;
+	color:#ffffff;
+	cursor:pointer;
+	padding:10px; 
+	padding-top:5px;
+	padding-bottom:5px;
+}
+
+.button1:hover{
+    background-color:#FFBB00;
+}
+
+/*绿色*/
+.button2{
+	display:block;
+	background-color:#55AA00;
+	border:1px solid #227700;
+	font-size:18px;
+	font-weight:bold;
+	color:#ffffff;
+	cursor:pointer;
+	padding:20px; 
+	padding-top:8px;
+	padding-bottom:8px;
+}
+
+.button2:hover{
+    background-color:#88AA00;
+}
+
+/*文本框颜色*/
+

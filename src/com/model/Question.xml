@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="Question"> 
+<typeAlias alias="Question" type="com.model.Question" /> 
+ 
+   <resultMap id="QuestionResult" class="Question">  
+       <result property="id" column="ID"/>
+       <result property="gradeID" column="GradeID"/>
+       <!-- 年级 -->
+       <result property="gradeName" column="GradeName"/>
+       <result property="gradeLevel" column="GradeLevel"/>
+       <result property="courseID" column="CourseID"/>
+       <!-- 科目 -->
+       <result property="courseName" column="CourseName"/>
+       <result property="title" column="Title"/>
+       <result property="questionType" column="QuestionType"/>
+       <result property="questionMaterialID" column="QuestionMaterialID"/>
+       <!-- 材料内容 -->
+       <result property="questionMaterialContent" column="QuestionMaterialContent"/>
+       <result property="content" column="Content"/>
+       <result property="answerNumber" column="AnswerNumber"/>
+       <result property="objectiveAnswer" column="ObjectiveAnswer"/>
+       <result property="optionA" column="OptionA"/>
+       <result property="optionB" column="OptionB"/>
+       <result property="optionC" column="OptionC"/>
+       <result property="optionD" column="OptionD"/>
+       <result property="optionE" column="OptionE"/>
+       <result property="optionF" column="OptionF"/>
+       <result property="optionG" column="OptionG"/>
+       <result property="optionH" column="OptionH"/>
+       <result property="subjectiveAnswer" column="SubjectiveAnswer"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <!-- 创建者名字 -->
+       <result property="createrName" column="CreaterName"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <insert id="insert" parameterClass="Question">
+		INSERT INTO
+			Question(
+				ID ,
+				GradeID ,
+				GradeLevel ,
+				CourseID ,
+				Title ,
+				QuestionType ,
+				QuestionMaterialID ,
+				Content ,
+				AnswerNumber ,
+				ObjectiveAnswer ,
+				OptionA ,
+				OptionB	,
+				OptionC	,
+				OptionD	,
+				OptionE	,
+				OptionF	,
+				OptionG	,
+				OptionH ,
+				SubjectiveAnswer ,
+				IsDelete ,
+				CreateBy ,
+				CreateDate ,
+				UpdateBy ,
+				UpdateDate
+			)
+			VALUES(
+				replace(newid(),'-','') ,
+				#gradeID# ,
+				#gradeLevel# ,
+				#courseID# ,
+				#title# ,
+				#questionType# ,
+				#questionMaterialID# ,
+				#content# ,
+				#answerNumber# ,
+				#objectiveAnswer# ,
+				#optionA# ,
+				#optionB# ,
+				#optionC# ,
+				#optionD# ,
+				#optionE# ,
+				#optionF# ,
+				#optionG# ,
+				#optionH# ,
+				#subjectiveAnswer# ,
+				#isDelete#,
+				#createBy# ,
+				#createDate# ,
+				#updateBy# ,
+				#updateDate#
+			)
+   </insert>
+   
+   <update id="update" parameterClass="Question">
+   	UPDATE
+   		Question
+   	SET
+   		GradeID=#gradeID# ,
+		GradeLevel=#gradeLevel# ,
+		CourseID=#courseID# ,
+		Title=#title# ,
+		QuestionType=#questionType# ,
+		QuestionMaterialID=#questionMaterialID# ,
+		Content=#content# ,
+		AnswerNumber=#answerNumber# ,
+		ObjectiveAnswer=#objectiveAnswer# ,
+		OptionA=#optionA# ,
+		OptionB=#optionB# ,
+		OptionC=#optionC# ,
+		OptionD=#optionD# ,
+		OptionE=#optionE# ,
+		OptionF=#optionF# ,
+		OptionG=#optionG# ,
+		OptionH=#optionH# ,
+		SubjectiveAnswer=#subjectiveAnswer# ,
+		IsDelete=#isDelete# ,
+		UpdateBy=#updateBy# ,
+		UpdateDate=#updateDate#
+	WHERE
+		ID=#id#
+   </update>
+   
+   <select id="find" parameterClass="java.util.Map" resultMap="QuestionResult" >
+		SELECT
+			a.* ,
+			b.GradeName AS gradeName ,
+			c.CourseName AS courseName ,
+			d.Content AS questionMaterialContent ,
+			e.Name AS createrName
+		FROM
+			Question AS a 
+				LEFT JOIN Grade_Info AS b ON a.GradeID=b.ID
+				LEFT JOIN Course_Info AS c ON a.CourseID=c.ID
+				LEFT JOIN QuestionMaterial AS d ON a.QuestionMaterialID=d.ID
+				LEFT JOIN Manager AS e ON a.CreateBy=e.ID
+		<dynamic prepend="WHERE" >
+	 	     <isNotEmpty prepend="AND" property="id" >
+		        a.ID=#id#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="gradeLevel" >
+		        a.GradeLevel=#gradeLevel#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="gradeID" >
+		        a.GradeID=#gradeID#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="courseID" >
+		        a.CourseID=#courseID#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="title" >
+		        a.Title=#title#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="questionType" >
+		        a.QuestionType=#questionType#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="questionMaterialID" >
+		        a.QuestionMaterialID=#questionMaterialID#
+		    </isNotEmpty>  
+		    <isNotEmpty prepend="AND" property="isDelete" >
+		        a.IsDelete=#isDelete#
+		    </isNotEmpty> 
+		    
+		      ORDER BY a.CreateDate DESC
+		</dynamic>
+   </select>
+   
+   <select id="getQuestionNum" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			Question
+		<dynamic prepend="WHERE" >
+	    <isNotEmpty prepend="AND" property="gradeID" >
+		        GradeID=#gradeID#
+		    </isNotEmpty>	
+		    <isNotEmpty prepend="AND" property="gradeLevel" >
+		        GradeLevel=#gradeLevel#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="courseID" >
+		        CourseID=#courseID#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="questionType" >
+		        QuestionType=#questionType#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="questionMaterialID" >
+		        QuestionMaterialID=#questionMaterialID#
+		    </isNotEmpty> 
+		    <isNotEmpty prepend="AND" property="isDelete" >
+		        IsDelete=#isDelete#
+		    </isNotEmpty>
+		</dynamic>
+   </select>
+   
+</sqlMap>  

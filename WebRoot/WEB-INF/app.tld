@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+  "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>Application Tag Library</shortname>
+	<uri>http://jakarta.apache.org/taglibs/struts-example-1.0</uri>
+	<info>
+		This tag library contains functionality for the Addressbook
+		Struts Sample Application. With small modifications, they can be
+		used
+		as generic tags.
+	</info>
+	<!-- 前台试卷列表 -->
+	<tag>
+		<name>DisplayTag_Frontend_PaperList</name>
+		<tagclass>com.tag.DisplayTag_Frontend_PaperList</tagclass>
+		<info>			
+		</info>
+		<attribute>
+			<name>gradeLevel</name>
+			<rtexprvalue>true</rtexprvalue>  
+		</attribute>
+	</tag>
+</taglib>
+

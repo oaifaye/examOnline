@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="GradeInfo"> 
+<typeAlias alias="GradeInfo" type="com.model.GradeInfo" /> 
+ 
+   <resultMap id="GradeInfoResult" class="GradeInfo">  
+       <result property="id" column="ID"/>
+       <result property="gradeName" column="GradeName"/>
+       <result property="gradeLevel" column="GradeLevel"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <insert id="insert" parameterClass="GradeInfo">
+		INSERT INTO
+			Grade_Info(
+				ID ,
+				GradeLevel ,
+				GradeName ,
+				IsDelete
+			)
+			VALUES(
+				replace(newid(),'-','') ,
+				#gradeLevel# ,
+				#gradeName# ,
+				#isDelete# 
+			)
+   </insert>
+   <select id="find" parameterClass="java.util.Map" resultMap="GradeInfoResult" >
+		SELECT 
+			* 
+		FROM 
+			Grade_Info 
+		<dynamic prepend="WHERE">
+		    <isNotEmpty prepend="AND" property="gradeLevel">
+				GradeLevel=#gradeLevel#
+	    	</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isDelete">
+				IsDelete=#isDelete#
+	    	</isNotEmpty>
+		</dynamic>
+	</select>
+   
+   
+</sqlMap>  

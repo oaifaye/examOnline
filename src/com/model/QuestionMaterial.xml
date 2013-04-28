@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="QuestionMaterial"> 
+	<typeAlias alias="QuestionMaterial" type="com.model.QuestionMaterial" /> 
+ 
+   <resultMap id="QuestionMaterialResult" class="QuestionMaterial">  
+       <result property="id" column="ID"/>
+       <result property="gradeID" column="GradeID"/>
+       <result property="courseID" column="CourseID"/>
+       <result property="gradeLevel" column="GradeLevel"/>
+       <result property="title" column="Title"/>
+       <result property="content" column="Content"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <!-- <insert id="insert" parameterClass="QuestionMaterial">
+		INSERT INTO
+			QuestionMaterial(
+				ID ,
+				Title ,
+				Content ,
+				IsDelete
+			)
+			VALUES(
+				replace(newid(),'-','') ,
+				#title# ,
+				#content# ,
+				#isDelete# 
+			)
+   </insert>
+ -->
+	<select id="find" parameterClass="java.util.Map" resultMap="QuestionMaterialResult">
+		SELECT 
+			*
+		FROM
+			QuestionMaterial
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">
+			    ID=#id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gradeLevel">
+			    GradeLevel=#gradeLevel#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="gradeID">
+			    GradeID=#gradeID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="courseID">
+			    CourseID=#courseID#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="title">
+			    Title=#title#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isDelete">
+			    IsDelete=#isDelete#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<update id="update" parameterClass="QuestionMaterial">
+		UPDATE 
+			QuestionMaterial
+		<dynamic prepend="SET" >
+			<isNotEmpty prepend="," property="content">
+				Content=#content#
+			</isNotEmpty>
+		</dynamic>
+		WHERE
+			ID=#id#
+	</update>
+
+   <parameterMap id="QuestionMaterialParameter" class="QuestionMaterial">
+       <parameter property="id" javaType="java.lang.String" jdbcType="VARCHAR" mode="OUT"/>
+       <parameter property="gradeID" javaType="java.lang.String" jdbcType="VARCHAR" />
+       <parameter property="courseID" javaType="java.lang.String" jdbcType="VARCHAR" />
+       <parameter property="gradeLevel" javaType="java.lang.String" jdbcType="VARCHAR" />
+       <parameter property="content" javaType="java.lang.String" jdbcType="NTEXE" />
+       <parameter property="isDelete" javaType="java.lang.String" jdbcType="CHAR" /> 
+      
+   </parameterMap>
+   
+   <procedure id="pro_insert" parameterMap="QuestionMaterialParameter">
+       {call proc_Test(?,?,?,?,?,?)}
+       
+   </procedure>
+   
+   
+   
+</sqlMap>  

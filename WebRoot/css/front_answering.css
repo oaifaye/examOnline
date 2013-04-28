@@ -1,0 +1,173 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: Arial, Verdana, "宋体";
+}
+
+.center {
+	margin: 20px auto;
+	width: 900px;
+}
+
+.head {
+	height: 60px;
+}
+
+.left {
+	float: left;
+	width: 200px;
+}
+
+.right {
+	float: left;
+	width: 700px;
+}
+
+.testArea {
+	border-color: rgb(237, 237, 251);
+	border-style: solid;
+	border-width: 1px;
+	border-image-outset: 0 0 0 0;
+	border-image-repeat: stretch stretch;
+	border-image-slice: 100% 100% 100% 100%;
+	border-image-source: none;
+	border-image-width: 1 1 1 1;
+	font-size: 12px;
+	height: 350px;
+	line-height: 18px;
+	margin-left: 20px;
+}
+
+.questionContent {
+	border-top-color: rgb(0, 0, 0) border-top-style:       none;
+	border-top-width: 0px;
+	line-height: 18px;
+	margin-left: 40px;
+	margin-right: 89px;
+	margin-top: 10px;
+}
+
+.questionContent h2 {
+	font-size	:	14px;
+	padding-bottom: 25px;
+}
+
+.options {
+	font-size: 14px;
+}
+
+.options dl {
+	line-height: 20px;
+	margin-left: 30px;
+}
+
+.options dt {
+	float: left;
+	font-weight: 700;
+	line-height: 20px;
+	margin-bottom: 13px;
+	margin-left: 18px;
+	width: 10px;
+}
+
+.options dd {
+	line-height: 20px;
+	margin-bottom: 13px;
+	margin-left: 50px;
+}
+
+.objectAnswers {
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 18px;
+	margin-top: 20px;
+	text-align: center;
+}
+
+.objectAnswers label {
+	font-size: 12px;
+	line-height: 18px;
+	margin-left: 20px;
+	text-align: center;
+}
+
+.subjectAnswers {
+	text-align: center;
+}
+
+.subjectAnswers textarea {
+	width: 500px;
+	height: 200px;
+	margin-top: 20px;
+}
+
+.indexContext {
+	line-height: 18px;
+	margin-left: 250px;
+	margin-top: 30px;
+}
+
+.previousQuestion {
+	background-image: url("../images/btnblk.gif");
+	background-position: 0px -54px;
+	display: block;
+	float: left;
+	font-size: 14px;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 32px;
+	text-decoration: none;
+	width: 65px;
+}
+
+.previousQuestion:hover{
+	background-image: url("../images/btnblk.gif");
+	background-position:  0px -78px;
+	cursor:pointer;
+}
+
+.previousQuestionA{
+	background-image: url("../images/btnblk.gif");
+	background-position:  0px -244px;
+	cursor:default;
+	display: block;
+	float: left;
+	font-size: 14px;
+	color: #AAAAAA;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 32px;
+	width: 65px;
+}
+
+.nextQuestion{
+	background-image: url("../images/btnblk.gif");
+	background-position: -107px -54px;
+	display: block;
+	float: left;
+	font-size: 14px;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 18px;
+	text-decoration: none;
+	width: 65px;
+}
+.nextQuestion:hover{
+	background-image: url("../images/btnblk.gif");
+	background-position:  -107px -78px;
+	cursor:pointer;
+}
+.nextQuestionA{
+	background-image: url("../images/btnblk.gif");
+	background-position:  -107px -244px;
+	cursor:default;
+	display: block;
+	float: left;
+	font-size: 14px;
+	color: #AAAAAA;
+	height: 24px;
+	line-height: 24px;
+	padding-left: 18px;
+	text-decoration: none;
+	width: 65px;
+}

@@ -1,0 +1,41 @@
+@CHARSET "UTF-8";
+
+.table {
+	margin: auto;
+	width: 700px;
+	border-collapse: collapse;
+}
+
+.table tr td {
+	border: solid #ccc 1px;
+	font-size: 16px;
+	height: 40px;
+}
+
+.objectiveItem,.subjectiveItem {
+	display: none;
+}
+
+.center ul {
+	border: none;
+	list-style-image: none;
+}
+
+.current {
+	background: #fff;
+}
+
+.tdLeft {
+	width: 200px;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.tdRight {
+	text-align: left;
+	padding-left: 10px;
+}
+
+.nobr br,.objective {
+	display: none
+}

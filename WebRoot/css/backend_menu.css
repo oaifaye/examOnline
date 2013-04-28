@@ -1,0 +1,66 @@
+@CHARSET "UTF-8";
+
+#cleft_box {
+	position: absolute;
+	left: 200px;
+	top: 100px;
+	padding: 0px;
+	margin: 0px;
+	font-size: 16px;
+	color: #FFF;
+}
+
+.cleft_top {
+	height: 41px;
+	width: 41px;
+	background: url(../images/button7.png) left top no-repeat;
+	background-color: :#000;
+	cursor:pointer;
+}
+
+
+.cleft_foot ul {
+	margin-top: 0px;
+	
+}
+
+.cleft_foot li{
+	border-style: ridge;
+	border-color:  	#F0F0F0;
+}
+
+.cleft_foot ul>li {
+	display: none;
+	height: 26px;
+	width: 130px;
+	background: url(../images/background2.jpg);
+	padding-top: 8px;;
+	text-align: center;
+	
+}
+
+.cleft_foot ul li a{
+
+	color:#fff;
+	 text-decoration:none;
+}
+
+.cleft_foot ul li a:hover{
+	cursor:pointer;
+	background-color: #fff;
+	color:#000;
+}
+
+.cleft_foot ul li ul li {
+	margin-left: -40px;
+	list-style-type: none;
+}
+
+.cleft_foot ul li ul {
+	position: absolute;
+	background: url(../images/background2.jpg);
+	left: 174px;
+	display: none;
+	float: left;
+	margin-left: 0px;
+}

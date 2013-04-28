@@ -1,0 +1,145 @@
+@CHARSET "UTF-8";
+
+body {
+	background: url(../images/background1.png) fixed;
+}
+
+img {
+	margin: 3px;
+}
+
+.imgClass {
+	filter: Alpha(opacity = 30);
+	-moz-opacity: .3;
+	opacity: 0.3;
+	/**
+	第一句是ie
+	支持.第二三句是firefox支持的,但是版本不一样就有两种了,所以用时候把三句都加上就行了
+	*/
+}
+
+.center {
+	margin: 200px auto;
+	width:500px;
+	text-align: center;
+}
+
+.center ul li{
+	text-align: center;
+	list-style-type: none;
+}
+
+
+.tabTop {
+	margin: 0 auto;
+	width: 600px;
+}
+
+.tabTop ul {
+	margin: 0 auto;
+	
+	height: 50px;
+	padding: 0;
+}
+
+.tabTop ul li {
+	
+	height: 50px;
+	width: 120px;
+	display:inline-block;
+}
+.tabTop ul li span {
+	text-align: center;
+	margin:5px auto;
+	display:block;
+	height:36px;
+	width:95px;
+	background-image:url(../images/button1.jpg);
+}
+
+.tabTop ul li span a{
+	display:block;
+	padding-top:9px;
+	font-size: 14;
+	color: #fff;
+}
+
+.tabTop ul li span a:hover{
+	display:block;
+	padding-top:9px;
+	font-size: 14;
+	color: #fff;
+	cursor:pointer;
+}
+
+.tabFoot {
+	width: 600px;
+	margin: 0 auto;
+	display: none;
+	background: #fff;
+	height: 150px;
+	text-align: center;
+}
+
+.tabFoot ul {
+	margin: 0 auto;
+	background: #fff;
+	
+	height: 150px;
+	overflow: hidden;
+}
+
+.tabFoot ul li {
+	
+	height: 40px;
+	text-align: center;
+	padding: 8px;
+}
+
+#greybackground {
+	background: #000;
+	filter: Alpha(opacity = 30);
+	-moz-opacity: .3;
+	opacity: 0.5;
+	display: block;
+	z-index: -1;
+	width: 100%;
+	height:0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.current {
+	background: #fff;
+}
+
+.ulFoot{
+	height:136px;
+}
+
+.ulFoot li{
+	display:inline-block;
+}
+
+.ulFoot span{
+	margin:20px auto;
+	text-align: center;
+	display:block;
+	height:36px;
+	width:145px;
+	background-image:url(../images/button5.jpg);
+}
+
+.ulFoot li span a{
+	display:block;
+	padding-top:9px;
+	font-size: 14;
+	color: #fff;
+	text-decoration: none;
+}
+
+.ulFoot li span:hover{
+	cursor:pointer;
+	background-image:url(../images/button6.jpg);
+}

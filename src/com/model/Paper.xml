@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="Paper"> 
+<typeAlias alias="Paper" type="com.model.Paper" /> 
+ 
+   <resultMap id="PaperResult" class="Paper">  
+       <result property="id" column="ID"/>
+       <result property="gradeID" column="GradeID"/>
+       <!-- 年级 -->
+       <result property="gradeName" column="GradeName"/>
+       <result property="gradeLevel" column="GradeLevel"/>
+       <result property="courseID" column="CourseID"/>
+       <!-- 科目 -->
+       <result property="courseName" column="CourseName"/>
+       <result property="title" column="Title"/>
+       <result property="itemType" column="ItemType"/>
+       <result property="itemNum" column="ItemNum"/>
+       <result property="itemScore" column="ItemScore"/>
+       <result property="allNum" column="AllNum"/>
+       <result property="allScore" column="AllScore"/>
+       <result property="isRelease" column="IsRelease"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <!-- 创建者名字 -->
+       <result property="createrName" column="CreaterName"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <insert id="insert" parameterClass="Paper">
+		INSERT INTO
+			Paper(
+				ID ,
+				GradeID ,
+				GradeLevel ,
+				CourseID ,
+				Title ,
+				ItemType ,
+				ItemNum ,
+				ItemScore ,
+				AllNum ,
+				AllScore ,
+				IsRelease ,
+				IsDelete ,
+				CreateBy ,
+				CreateDate ,
+				UpdateBy ,
+				UpdateDate
+			)
+			VALUES(
+				replace(newid(),'-','') ,
+				#gradeID# ,
+				#gradeLevel# ,
+				#courseID# ,
+				#title# ,
+				#itemType# ,
+				#itemNum# ,
+				#itemScore# ,
+				#allNum# ,
+				#allScore# ,
+				#isRelease# ,
+				#isDelete# ,
+				#createBy# ,
+				#createDate# ,
+				#updateBy# ,
+				#updateDate#
+			)
+   </insert>
+   
+   <select id="find" parameterClass="java.util.Map" resultMap="PaperResult">
+       SELECT
+			a.* ,
+			b.GradeName AS gradeName ,
+			c.CourseName AS courseName ,
+			d.Name AS createrName
+		FROM
+			Paper AS a 
+				LEFT JOIN Grade_Info AS b ON a.GradeID=b.ID
+				LEFT JOIN Course_Info AS c ON a.CourseID=c.ID
+				LEFT JOIN Manager AS d ON a.CreateBy=d.ID
+		<dynamic prepend="WHERE" >
+			<isNotEmpty prepend="AND" property="id" >
+		        a.ID=#id#
+		    </isNotEmpty>
+			<isNotEmpty prepend="AND" property="gradeID" >
+		        a.GradeID=#gradeID#
+		    </isNotEmpty>	
+		    <isNotEmpty prepend="AND" property="gradeLevel" >
+		        a.GradeLevel=#gradeLevel#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="courseID" >
+		        a.CourseID=#courseID#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="isDelete" >
+		        a.IsDelete=#isDelete#
+		    </isNotEmpty>
+		</dynamic>
+       		ORDER BY a.CreateDate DESC
+   </select>
+   
+   <select id="getPaperNum" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		SELECT 
+			COUNT(*)
+		FROM
+			Paper
+		<dynamic prepend="WHERE" >
+	    	<isNotEmpty prepend="AND" property="gradeID" >
+		        GradeID=#gradeID#
+		    </isNotEmpty>	
+		    <isNotEmpty prepend="AND" property="gradeLevel" >
+		        GradeLevel=#gradeLevel#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="courseID" >
+		        CourseID=#courseID#
+		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="isDelete" >
+		        IsDelete=#isDelete#
+		    </isNotEmpty>
+		</dynamic>
+   </select>
+   
+   <update id="update" parameterClass="Paper">
+		UPDATE
+			Paper
+		<dynamic prepend="SET" >
+			<isNotNull prepend="," property="gradeID">
+				GradeID = #gradeID#
+			</isNotNull>
+			<isNotNull prepend="," property="gradeLevel">
+				GradeLevel = #gradeLevel#
+			</isNotNull>
+			<isNotNull prepend="," property="courseID">
+				CourseID = #courseID#
+			</isNotNull>
+			<isNotNull prepend="," property="title">
+				Title = #title#
+			</isNotNull>
+			<isNotNull prepend="," property="itemType">
+				ItemType = #itemType#
+			</isNotNull>
+			<isNotNull prepend="," property="itemNum">
+				ItemNum = #itemNum#
+			</isNotNull>
+			<isNotNull prepend="," property="itemScore">
+				ItemScore = #itemScore#
+			</isNotNull>
+			<isNotNull prepend="," property="allNum">
+				AllNum = #allNum#
+			</isNotNull>
+			<isNotNull prepend="," property="allScore">
+				AllScore = #allScore#
+			</isNotNull>
+			<isNotNull prepend="," property="isRelease">
+				IsRelease = #isRelease#
+			</isNotNull>
+			<isNotNull prepend="," property="isDelete">
+				IsDelete = #isDelete#
+			</isNotNull>
+			<isNotNull prepend="," property="updateBy">
+				UpdateBy = #updateBy#
+			</isNotNull>
+			<isNotNull prepend="," property="updateDate">
+				UpdateDate = #updateDate#
+			</isNotNull>
+		</dynamic>
+		WHERE
+			ID=#id#
+   </update>
+   
+</sqlMap>  

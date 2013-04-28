@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="Manager"> 
+<typeAlias alias="Manager" type="com.model.Manager" /> 
+ 
+   <resultMap id="ManagerResult" class="Manager">  
+       <result property="id" column="ID"/>
+       <result property="name" column="Name"/>
+       <result property="userName" column="UserName"/>
+       <result property="password" column="Password"/>
+       <result property="role" column="Role"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <select id="find" resultMap="ManagerResult" parameterClass="java.util.Map">
+		SELECT * 
+		FROM Manager
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">
+				ID = #id#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="name">
+				Name = #name#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="userName">
+				UserName = #userName#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="password">
+				Password = #password#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="role">
+				Role = #role#
+			</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isDelete">
+				IsDelete = #isDelete#
+			</isNotEmpty>
+		</dynamic>
+   </select>
+</sqlMap>  
