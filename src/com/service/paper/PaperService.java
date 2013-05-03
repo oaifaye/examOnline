@@ -1,11 +1,9 @@
 package com.service.paper;
 
-import java.util.List;
 import java.util.Map;
 
 import com.common.Page;
 import com.model.Paper;
-import com.model.Question;
 
 public interface PaperService {
 

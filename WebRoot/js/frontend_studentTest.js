@@ -1,31 +1,45 @@
 var onbeforeunloadFlog=true;
 $(function() {
-	// 为点击时绕过onbeforeunload，只执行click而设置的变量
-	 
+	//初始化页面，使当前试题的索引被选中
+	$(".index a").each(function(){
+		if(parseInt($(this).text())-1==parseInt($("#currentIndex").val())){
+			$(this).addClass("indexChecked");
+		}
+	});
 
 	$("#previousQuestion").click(function() {
-		//onbeforeunloadFlog=false;
 		window.questionControl.method = "post";
 		window.questionControl.action = "previousQuestionFrontend.action";
 		window.questionControl.submit();
 	});
 
 	$("#nextQuestion").click(function() {
-		//onbeforeunloadFlog=false;
 		window.questionControl.method = "post";
 		window.questionControl.action = "nextQuestionFrontend.action";
 		window.questionControl.submit();
 	});
+	
+	$(".indexButton").click(function() {
+		//请求的试题索引与本题相符时  不跳转
+		if(parseInt($(this).text())-1!=parseInt($("#currentIndex").val())){
+			//把请求的试题索引赋给表单中的hidden，以便post提交
+			$("#needIndex").val(parseInt($(this).text())-1);
+			window.questionControl.method = "post";
+			window.questionControl.action = "gainQuestionByIndexFrontend.action";
+			window.questionControl.submit();
+		}
+	});
+	
 
-	function gettempAnswer() {
-		var tempAnswer = "";
-		$("input[name=tempAnswer]").each(function() {
-			if ($(this).attr("checked") == true) {
-				tempAnswer += $(this).val();
-			}
-		});
-		return tempAnswer;
-	}
+//	function gettempAnswer() {
+//		var tempAnswer = "";
+//		$("input[name=tempAnswer]").each(function() {
+//			if ($(this).attr("checked") == true) {
+//				tempAnswer += $(this).val();
+//			}
+//		});
+//		return tempAnswer;
+//	}
 
 	// 根据单选或是多选，控制答案个数
 	$("input[name='tempAnswer']").each(function() {

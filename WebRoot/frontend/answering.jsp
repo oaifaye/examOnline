@@ -23,12 +23,51 @@
 
 	<div class="center">
 		<div class="head">
-			<s:property value="paper.title" />
-			总
+			<div class="tltle"><s:property value="paper.title" /></div>
+			<span class="allScore">
+			试卷满分：
 			<s:property value="paper.allScore" />
-			分<br />
+			分
+			</span>
 		</div>
-		<div class="left">左方样式</div>
+		<div class="left">
+			<div class="time">时间：建设中！！</div>
+			<hr />
+			
+		<!-- 试题索引 -->
+			<s:iterator value="questionTypeList" id="type">
+				<div class="type">
+					<h2>
+					<s:if test="#type==0">
+						单选题
+					</s:if>
+					<s:elseif test="#type==1">
+						多选题
+					</s:elseif>
+					<s:elseif test="#type==2">
+						简答题
+					</s:elseif>
+					</h2>
+				</div>
+				<div class="index">
+					<s:iterator value="questionList" status="st">
+						<s:if test='#type==questionType'>
+							<s:if test="tempAnswer==null">
+								<a class="indexButton"><s:property value="#st.count"/></a>
+							</s:if>
+							<s:else>
+								<a class="indexButton indexFinished"><s:property value="#st.count"/></a>
+							</s:else>
+							
+						</s:if>
+					</s:iterator>
+				</div>
+				<hr />
+			</s:iterator>
+			
+			<a id="submitPaper">试卷提交</a>
+			<a id="quitButton" >退出</a>
+		</div>
 		<div class="right">
 			<div class="testArea">
 				<div class="questionContent">
@@ -169,15 +208,16 @@
 				<a id="nextQuestion" class="nextQuestion" >下一题</a>
 			</s:else>
 		</div>
-		<input type="hidden" name="currentIndex" id="currentIndex" value="${currentIndex}" /> <input
-			type="hidden" id="questionType" value="${question.questionType}" />
+		<input type="hidden" name="currentIndex" id="currentIndex" value="${currentIndex}" /> 
+		<input type="hidden" id="questionType" value="${question.questionType}" />
+		<input type="hidden" id="needIndex" name="needIndex" />
 		</s:form>
 	</div>
 	</div>
 
 
 
-	单选题数：
+	<!-- 单选题数：
 	<s:property value="itemNumSingle" />
 	&nbsp;&nbsp;&nbsp;&nbsp;每题
 	<s:property value="itemScoreSingle" />
@@ -200,16 +240,16 @@
 	分
 	<br />
 
-	<!-- <s:iterator value="questionList">
+	<s:iterator value="questionList">
 		<s:property value="title" />
 		<br />
 	</s:iterator>
 	------------
 	<s:property value="question.title" />
-	<br /> -->
+	<br />
 	
 <a id="submitPaper" >试卷提交</a>
 <a id="quitButton" >退出</a>
-
+ -->
 </body>
 </html>

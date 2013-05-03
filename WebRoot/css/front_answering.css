@@ -4,43 +4,131 @@ body {
 	font-family: Arial, Verdana, "宋体";
 }
 
+hr{
+	color: #DDDDDD;
+	width: 175px;
+	clear: left;
+}
+
 .center {
-	margin: 20px auto;
-	width: 900px;
+	margin: 0 auto;
+	width: 948px;
+	height:100px;
+	background: url("../images/background4.jpg");
 }
 
 .head {
-	height: 60px;
+	height: 33px;
+	padding-top: 30px;
+}
+
+.tltle{
+display: inline;
+font-family: "微软雅黑";
+font-size: 24px;
+font-weight: 400;
+line-height:24px;
+margin-left:30px ;
+
+}
+.allScore{
+color: rgb(106, 106, 106);
+font-family: Arial,Verdana,"宋体";
+font-size: 12px;
+line-height: 18px;
+margin-left: 20px;
 }
 
 .left {
 	float: left;
-	width: 200px;
+	width: 183px;
+	height:500px;
+	background:url("../images/background3.jpg");
+}
+
+.time{
+	height: 100px;
+}
+
+.type h2{
+font-size: 14px;
+line-height: 18px;
+margin-left: 12px;
+margin-right:12px;
+margin-top: 15px;
+
+}
+
+.index{
+	overflow:auto;
+	margin-bottom: 20px; 
+}
+
+.indexButton{
+background-image: url("../images/num.gif");
+float: left;
+font-size: 12px;
+height: 23px;
+line-height: 23px;
+margin-left: 7px;
+margin-right: 7px;
+margin-top: 9px;
+padding-right: 1px;
+text-align: center;
+width: 26px;
+}
+
+.indexButton:hover{
+	background-position:  0px -46px;
+	cursor:pointer;	
+}
+
+.indexFinished{
+	background-position:  0px -23px;
+}
+
+.indexChecked{
+	background-position:  0px -46px;
+}
+
+#submitPaper,#quitButton{
+margin-left:40px;
+font-size: 14px;
+background-image: url("../images/btnblk.gif");
+background-position:  0px -26px;
+display: block;
+font-weight: 700;
+height: 27px;
+line-height: 27px;
+margin-top: 16px;
+text-align: center;
+width: 96px;
+}
+
+#submitPaper:hover,#quitButton:hover{
+background-image: url("../images/btnblk.gif");
+background-position:  0px 0px;
+cursor:pointer;	
 }
 
 .right {
-	float: left;
-	width: 700px;
+	float: right;
+	width: 760px;
 }
 
 .testArea {
 	border-color: rgb(237, 237, 251);
 	border-style: solid;
 	border-width: 1px;
-	border-image-outset: 0 0 0 0;
-	border-image-repeat: stretch stretch;
-	border-image-slice: 100% 100% 100% 100%;
-	border-image-source: none;
-	border-image-width: 1 1 1 1;
 	font-size: 12px;
 	height: 350px;
 	line-height: 18px;
 	margin-left: 20px;
+	margin-top: 50px;
 }
 
 .questionContent {
-	border-top-color: rgb(0, 0, 0) border-top-style:       none;
-	border-top-width: 0px;
+	border-top-style:none;
 	line-height: 18px;
 	margin-left: 40px;
 	margin-right: 89px;
@@ -48,7 +136,7 @@ body {
 }
 
 .questionContent h2 {
-	font-size	:	14px;
+	font-size:14px;
 	padding-bottom: 25px;
 }
 

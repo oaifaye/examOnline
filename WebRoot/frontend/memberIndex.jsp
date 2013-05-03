@@ -20,5 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
    
     <app:DisplayTag_Frontend_PaperList gradeLevel="2" />
+    <app:DisplayTag_Frontend_PaperList gradeLevel="0" />
   </body>
 </html>

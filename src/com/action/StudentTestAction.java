@@ -1,5 +1,6 @@
 package com.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.model.Paper;
@@ -23,34 +24,41 @@ public class StudentTestAction extends ActionSupport {
 	private int itemScoreSubjective;
 	private List<Question> questionList;
 	private int currentIndex;
+	private int needIndex;
 	private Question question;
 	private String tempAnswer;
 	private int lastScore;
+	private List<String> questionTypeList=new ArrayList<String>();
 
-	// 初始化试卷
+// 初始化试卷
 	public String initPaper() {
-		// 确定paper,并将paperList存入Session
+	 // 确定paper,并将paperList存入Session
 		paper = initQuestionListInSession();
 		if (paper.getQuestionList().size() > 0) {
 			String[] itemTypeArray = paper.getItemType().split(",");
-			String[] itemNumArray = paper.getItemNum().split(",");
-			String[] itemScoreArray = paper.getItemScore().split(",");
-			// 提取各个类型试题的题数与分数
-			for (int i = 0; i < itemTypeArray.length; i++) {
-				if (itemTypeArray[i].equals("0")) {
-					itemNumSingle = Integer.parseInt(itemNumArray[i]);
-					itemScoreSingle = Integer.parseInt(itemScoreArray[i]);
-				}
-				if (itemTypeArray[i].equals("1")) {
-					itemNumDouble = Integer.parseInt(itemNumArray[i]);
-					itemScoreDouble = Integer.parseInt(itemScoreArray[i]);
-				}
-				if (itemTypeArray[i].equals("2")) {
-					itemNumSubjective = Integer.parseInt(itemNumArray[i]);
-					itemScoreSubjective = Integer.parseInt(itemScoreArray[i]);
-				}
+//			String[] itemNumArray = paper.getItemNum().split(",");
+//			String[] itemScoreArray = paper.getItemScore().split(",");
+			questionTypeList.clear();
+			for(String s:itemTypeArray){
+				questionTypeList.add(s);
 			}
+			// 提取各个类型试题的题数与分数
+//			for (int i = 0; i < itemTypeArray.length; i++) {
+//				if (itemTypeArray[i].equals("0")) {
+//					itemNumSingle = Integer.parseInt(itemNumArray[i]);
+//					itemScoreSingle = Integer.parseInt(itemScoreArray[i]);
+//				}
+//				if (itemTypeArray[i].equals("1")) {
+//					itemNumDouble = Integer.parseInt(itemNumArray[i]);
+//					itemScoreDouble = Integer.parseInt(itemScoreArray[i]);
+//				}
+//				if (itemTypeArray[i].equals("2")) {
+//					itemNumSubjective = Integer.parseInt(itemNumArray[i]);
+//					itemScoreSubjective = Integer.parseInt(itemScoreArray[i]);
+//				}
+//			}
 			question = paper.getQuestionList().get(0);
+			
 			// 初始化hidden
 			currentIndex = 0;
 			return "initQuestion";
@@ -60,7 +68,7 @@ public class StudentTestAction extends ActionSupport {
 		
 	}
 
-	// 下一题
+// 下一题
 	public String nextQuestion() {
 		questionList = gainQuestionListInSession();
 		if (questionList != null) {
@@ -80,7 +88,7 @@ public class StudentTestAction extends ActionSupport {
 
 	}
 
-	// 上一题
+// 上一题
 	public String previousQuestion() {
 		questionList = gainQuestionListInSession();
 		if (questionList != null) {
@@ -99,8 +107,23 @@ public class StudentTestAction extends ActionSupport {
 			return "listPaper";
 		}
 	}
+	
+//按索引定位试题
+	public String gainQuestionByIndex() {
+		questionList = gainQuestionListInSession();
+		if (questionList != null) {
+			// 记住本题答案
+			controlQuestion();
 
-	// 上一题或下一题跳转到的action（主要为去掉paramater中的缓存）
+			// 按索引开始准备下一题
+			currentIndex = needIndex;
+			return "initQuestion";
+		} else {
+			return "listPaper";
+		}
+	}
+
+// 上一题或下一题跳转到的action（主要为去掉paramater中的缓存）
 	public String initQuestion() {
 		questionList = gainQuestionListInSession();
 		if (questionList != null) {
@@ -109,7 +132,7 @@ public class StudentTestAction extends ActionSupport {
 		return "answering";
 	}
 
-	// 判卷
+// 判卷
 	public String marking() {
 		questionList = gainQuestionListInSession();
 		if (questionList != null) {
@@ -134,19 +157,19 @@ public class StudentTestAction extends ActionSupport {
 
 	}
 
-	// 初始化result.jsp，以免刷新后跳转别处
+// 初始化result.jsp，以免刷新后跳转别处
 	public String initResult() {
 		return "result";
 	}
 
-	// 退出答题
+// 退出答题
 	public String quitPaper() {
 		questionList = null;
 		ActionContext.getContext().getSession().remove("paper");
 		return "listPaper";
 	}
 
-	// 记住本题答案（调用方法）
+// 记住本题答案（调用方法）
 	public void controlQuestion() {
 		if (currentIndex >= 0 && currentIndex < questionList.size()) {
 
@@ -167,7 +190,7 @@ public class StudentTestAction extends ActionSupport {
 		tempAnswer = null;
 	}
 
-	// 答题时从Session中获取questionList（调用方法）
+// 答题时从Session中获取questionList（调用方法）
 	public List<Question> gainQuestionListInSession() {
 		Paper paperInSession = (Paper) ActionContext.getContext().getSession()
 				.get("paper");
@@ -180,7 +203,7 @@ public class StudentTestAction extends ActionSupport {
 		return questionList;
 	}
 
-	// 获取Session中的questionList，如Session中没有paper，新建一个paper（调用方法）
+// 获取Session中的questionList，如Session中没有paper，新建一个paper（调用方法）
 	public Paper initQuestionListInSession() {
 		paper = (Paper) ActionContext.getContext().getSession().get("paper");
 		// 判断questionList是否在Session中
@@ -296,6 +319,14 @@ public class StudentTestAction extends ActionSupport {
 		this.currentIndex = currentIndex;
 	}
 
+	public int getNeedIndex() {
+		return needIndex;
+	}
+
+	public void setNeedIndex(int needIndex) {
+		this.needIndex = needIndex;
+	}
+
 	public Question getQuestion() {
 		return question;
 	}
@@ -318,6 +349,14 @@ public class StudentTestAction extends ActionSupport {
 
 	public void setLastScore(int lastScore) {
 		this.lastScore = lastScore;
+	}
+
+	public List<String> getQuestionTypeList() {
+		return questionTypeList;
+	}
+
+	public void setQuestionTypeList(List<String> questionTypeList) {
+		this.questionTypeList = questionTypeList;
 	}
 
 }
