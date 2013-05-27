@@ -14,4 +14,5 @@
   <sqlMap resource="com/model/Question.xml"/>
   <sqlMap resource="com/model/QuestionMaterial.xml"/>
   <sqlMap resource="com/model/Paper.xml"/>
+  <sqlMap resource="com/model/StudyCondition.xml"/>
 </sqlMapConfig>

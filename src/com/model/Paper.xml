@@ -93,6 +93,9 @@
 		    <isNotEmpty prepend="AND" property="courseID" >
 		        a.CourseID=#courseID#
 		    </isNotEmpty>
+		    <isNotEmpty prepend="AND" property="isRelease" >
+		        a.IsRelease=#isRelease#
+		    </isNotEmpty>
 		    <isNotEmpty prepend="AND" property="isDelete" >
 		        a.IsDelete=#isDelete#
 		    </isNotEmpty>

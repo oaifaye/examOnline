@@ -24,7 +24,7 @@
 				<interceptor-ref name="authority"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		<!-- <default-interceptor-ref name="authorityStack"></default-interceptor-ref> -->
+		<default-interceptor-ref name="authorityStack"></default-interceptor-ref>
 		<!-- 全局result -->
 		<global-results>
 			<result name="relogin">/backend/login.jsp</result>
@@ -92,7 +92,7 @@
 	    <!-- 登录验证拦截器 -->
 		<interceptors>
 			<interceptor name="memberInterceptor" class="com.interceptor.MemberInterceptor">
-				<param name="excludemethods">login</param>
+				<param name="excludemethods">login,register</param>
 			</interceptor>
 			<interceptor-stack name="memberStack">
 				<interceptor-ref name="defaultStack"></interceptor-ref>
@@ -108,6 +108,10 @@
 		<action name="loginFrontend" class="memberAction" method="login">
 			<result name="success">frontend/memberIndex.jsp</result>
 			<result name="error">login.jsp</result>
+		</action>
+		<action name="registerFrontend" class="memberAction" method="register">
+			<result name="success">/login.jsp</result>
+			<result name="error">/404.jsp</result>
 		</action>
 		
 		<action name="*Frontend" class="studentTestAction" method="{1}">

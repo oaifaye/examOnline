@@ -1,0 +1,47 @@
+@CHARSET "UTF-8";
+
+body{
+	font-family: "宋体";
+}
+
+.register td{
+	padding-left: 20px;
+}
+
+.text{
+height: 22px;
+line-height: 22px;
+width: 180px;
+}
+
+.head{
+font-size: 12px;
+font-weight: 700;
+line-height: 31px;
+text-align: left;
+}
+
+.tdMust{
+background-image: url("../images/appraisal_icon.gif");
+background-position: -290px -448px;
+background-repeat: no-repeat;
+color: #666666;
+display: block;
+font-size: 12px;
+line-height: 32px;
+padding-top: 3px;
+padding-left: 15px;
+text-align: right;
+}
+
+.memberType{
+color: #666666;
+float: left;
+font-size: 12px;
+line-height: 32px;
+padding-bottom: 5px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 3px;
+text-align: left;
+}

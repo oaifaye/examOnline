@@ -8,15 +8,19 @@ $(function() {
 	});
 
 	$("#previousQuestion").click(function() {
-		window.questionControl.method = "post";
-		window.questionControl.action = "previousQuestionFrontend.action";
-		window.questionControl.submit();
+//		window.questionControl.method = "post";
+//		window.questionControl.action = "previousQuestionFrontend.action";
+//		window.questionControl.submit();
+		$("#questionControl").attr("action","previousQuestionFrontend.action")//更改属性
+	    .submit();//提交
 	});
 
 	$("#nextQuestion").click(function() {
-		window.questionControl.method = "post";
-		window.questionControl.action = "nextQuestionFrontend.action";
-		window.questionControl.submit();
+//		window.questionControl.method = "post";
+//		window.questionControl.action = "nextQuestionFrontend.action";
+//		window.questionControl.submit();
+		$("#questionControl").attr("action","nextQuestionFrontend.action")//更改属性
+	    .submit();//提交
 	});
 	
 	$(".indexButton").click(function() {
@@ -24,9 +28,11 @@ $(function() {
 		if(parseInt($(this).text())-1!=parseInt($("#currentIndex").val())){
 			//把请求的试题索引赋给表单中的hidden，以便post提交
 			$("#needIndex").val(parseInt($(this).text())-1);
-			window.questionControl.method = "post";
-			window.questionControl.action = "gainQuestionByIndexFrontend.action";
-			window.questionControl.submit();
+//			window.questionControl.method = "post";
+//			window.questionControl.action = "gainQuestionByIndexFrontend.action";
+//			window.questionControl.submit();
+			$("#questionControl").attr("action","gainQuestionByIndexFrontend.action")//更改属性
+		    .submit();//提交
 		}
 	});
 	
@@ -59,9 +65,11 @@ $(function() {
 	//试卷提交按钮
 	$("#submitPaper").click(function(){
 		//window.location.href="markingFrontend.action";
-		window.questionControl.method = "post";
-		window.questionControl.action = "markingFrontend.action";
-		window.questionControl.submit();
+//		window.questionControl.method = "post";
+//		window.questionControl.action = "markingFrontend.action";
+//		window.questionControl.submit();
+		$("#questionControl").attr("action","markingFrontend.action")//更改属性
+	    .submit();//提交
 	});
 
 	//退出按钮

@@ -7,4 +7,5 @@ import com.model.Member;
 
 public interface MemberService {
 	public List<Member> findByParams(Map<String, Object> params);
+	public void addMamber(Member member);
 }

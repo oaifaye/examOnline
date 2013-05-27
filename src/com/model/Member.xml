@@ -9,6 +9,7 @@
        <result property="userType" column="UserType"/>
        <result property="userName" column="UserName"/>
        <result property="password" column="Password"/>
+       <result property="email" column="Email"/>
        <result property="isDelete" column="IsDelete"/>
        <result property="createBy" column="CreateBy"/>
        <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
@@ -37,4 +38,33 @@
 			</isNotEmpty>
 		</dynamic>
    </select>
+   
+   <insert id="insert" parameterClass="Member">
+	INSERT INTO
+		Member(
+			ID ,
+			UserType ,
+			UserName,
+			Password,
+			Email,
+			IsDelete,
+			CreateBy,
+			CreateDate,
+			UpdateBy,
+			UpdateDate
+		)
+		VALUES(
+			replace(newid(),'-','') ,
+			#userType# ,
+			#userName#,
+			#password#,
+			#email#,
+			#isDelete#,
+			#createBy#,
+			#createDate#,
+			#updateBy#,
+			#updateDate#
+		)
+	
+   </insert>
 </sqlMap>  

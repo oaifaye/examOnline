@@ -15,12 +15,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 	<link rel="stylesheet" type="text/css" href="css/front_login.css" />
 	<link rel="stylesheet" type="text/css" href="css/common.css" />
+	<script type="text/javascript" src="js/jquery.js"></script>
+  	<script type="text/javascript" src="js/front_login.js"></script>
+  
   </head>
   
   <body>
     <div class="center">
     	<div class="register">
-    		<a>新用户注册   sign up</a><button type="submit" class="button1" name="save" >立即注册</button>
+    		<a>新用户注册   sign up</a><button type="submit" class="button1" name="save" id="register">立即注册</button>
     		<img class="regist_bg" src="images/regist_bg.gif" />
     	</div>
     	<s:form action="loginFrontend" theme="simple">

@@ -17,10 +17,13 @@ import com.service.login.ManagerService;
 
 @SuppressWarnings("serial")
 public class ManagerAction extends ActionSupport {
+	private String  userName,
+					password,
+					nextAction
+					;
+	
 	private ManagerService managerService;
-	private String userName;
-	private String password;
-	private String nextAction;
+	
 	
 	public String login(){
 		if(!(null==userName||("").equals(userName)||null==password||("").equals(password))){

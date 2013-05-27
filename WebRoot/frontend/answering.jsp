@@ -58,7 +58,6 @@
 							<s:else>
 								<a class="indexButton indexFinished"><s:property value="#st.count"/></a>
 							</s:else>
-							
 						</s:if>
 					</s:iterator>
 				</div>
@@ -68,6 +67,7 @@
 			<a id="submitPaper">试卷提交</a>
 			<a id="quitButton" >退出</a>
 		</div>
+	<!-- 右侧答题区 -->
 		<div class="right">
 			<div class="testArea">
 				<div class="questionContent">
@@ -77,7 +77,7 @@
 						<s:property value="question.content" />
 					</h2>
 				</div>
-				<s:form name="questionControl" theme="simple">
+				<s:form name="questionControl" theme="simple" id="questionControl">
 					<!-- 客观题 -->
 
 					<s:if test="question.questionType!=2">

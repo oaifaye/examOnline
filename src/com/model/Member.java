@@ -6,6 +6,7 @@ public class Member extends BaseEntity {
 	private String userType;
 	private String userName;
 	private String password;
+	private String email;
 	private String isDelete;
 
 
@@ -31,6 +32,14 @@ public class Member extends BaseEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getIsDelete() {

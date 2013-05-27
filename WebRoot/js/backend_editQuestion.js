@@ -82,7 +82,7 @@ $(function(){
 		//点击主观题radio，默认选项个数(只需修改页面select中的value)
 		for(var i = 0;i<parseInt($("#optionNum").val());i++){
 			//选项显示
-			$("#questionTable tr:td").eq(i+8).show();
+			$("#questionTable tr").eq(i+8).show();
 			//答案显示
 			$("#answerTd label").eq(i).show();
 			

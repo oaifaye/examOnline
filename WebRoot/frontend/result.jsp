@@ -18,14 +18,18 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type='text/javascript' src='js/frontend_studentTest.js'></script>
 <link rel="stylesheet" href="css/front_answering.css" type="text/css"></link>
-</head>
+<link rel="stylesheet" href="css/front_result.css" type="text/css"></link></head>
 <body>
 除简答题得分：<s:property value="lastScore" />
 <a href="<%=basePath%>frontend/memberIndex.jsp" >再选张卷子</a><br />
 <!-- 客观题 -->
 <s:iterator value="paper.questionList" status="st" >
-	<s:property value="#st.count"/>
-	<s:property value="content"/>
+	<div class="testArea">
+		<div class="content">
+			<s:property value="#st.count"/>
+			（<s:property value="score" />分）
+			<s:property value="content"/>
+		</div>
 					<s:if test="questionType!=2">
 						<div class="options">
 							<dl>
@@ -85,9 +89,9 @@
 					<s:elseif test="objectiveAnswer!=tempAnswer"><a style="color: red;" ></s:elseif><br />
 					
 					<s:else><a ></s:else>
-					
-					
 					<s:property value="tempAnswer"/></a><br />
+	</div>
 					</s:iterator>
+	
 </body>
 </html>

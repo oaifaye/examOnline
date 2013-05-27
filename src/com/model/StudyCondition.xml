@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+    <!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"        
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">  
+<sqlMap namespace="StudyCondition"> 
+<typeAlias alias="StudyCondition" type="com.model.StudyCondition" /> 
+ 
+   <resultMap id="StudyConditionResult" class="StudyCondition">  
+       <result property="id" column="ID"/>
+       <result property="studentID" column="StudentID"/>
+       <result property="courseID" column="CourseID"/>
+       <result property="gradeID" column="GradeID"/>
+       <result property="paperID" column="PaperID"/>
+       <result property="examState" column="ExamState"/>
+       <result property="score" column="Score"/>
+       <result property="isDelete" column="IsDelete"/>
+       <result property="createBy" column="CreateBy"/>
+       <result property="createDate" column="CreateDate" jdbcType="TIMESTAMP"/>    
+       <result property="updateBy" column="UpdateBy"/>    
+       <result property="updateDate" column="UpdateDate"  jdbcType="TIMESTAMP"/>  
+   </resultMap>  
+   
+   <insert id="insert" parameterClass="StudyCondition">
+		INSERT INTO
+			Study_condition(
+				ID,
+				StudentID,
+				CourseID,
+				GradeID,
+				PaperID,
+				ExamState,
+				Score,
+				IsDelete,
+				CreateBy,
+				CreateDate,
+				UpdateBy,
+				UpdateDate
+			)
+		VALUES(
+				replace(newid(),'-',''),
+				#studentID#,
+				#courseID#,
+				#gradeID#,
+				#paperID#,
+				#examState#,
+				#score#,
+				#isDelete#,
+				#createBy#,
+				#createDate#,
+				#updateBy#,
+				#updateDate#
+			)
+		
+   </insert>
+  
+</sqlMap>  

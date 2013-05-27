@@ -74,6 +74,7 @@
     	<bean id="questionMaterialDAO" class="com.dao.questionMaterial.QuestionMaterialDAOImpl" parent="baseDao"></bean> 
     	<bean id="paperDAO" class="com.dao.paper.PaperDAOImpl" parent="baseDao"></bean> 
     	<bean id="memberDAO" class="com.dao.member.MemberDAOImpl" parent="baseDao"></bean> 
+    	<bean id="studyConditionDAO" class="com.dao.studyCondition.StudyConditionDAOImpl" parent="baseDao"></bean> 
     <!-- DAO 注入结束 -->
     
     
@@ -100,6 +101,10 @@
     	<!-- 前台登陆 -->
     	<bean id="memberService" class="com.service.member.MemberServiceImpl">
 			<property name="memberDAO" ref="memberDAO"/>
+    	</bean>
+    	<!-- 学员学习情况 -->
+    	<bean id="studyConditionService" class="com.service.studyCondition.StudyConditionServiceImpl">
+			<property name="studyConditionDAO" ref="studyConditionDAO"/>
     	</bean>
     	
     <!-- 将service组件注入Action 开始--> 
@@ -129,6 +134,7 @@
 		<bean id="studentTestAction" class="com.action.StudentTestAction" >
     		<property name="paperService" ref="paperService"/>
     		<property name="questionService" ref="questionService"/>
+    		<property name="studyConditionService" ref="studyConditionService"/>
 		</bean>
 		
 <!-- AOPTEST -->

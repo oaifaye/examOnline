@@ -13,6 +13,11 @@ public class MemberServiceImpl implements MemberService {
 	public List<Member> findByParams(Map<String, Object> params){
 		return memberDAO.findByParams(params);
 	}
+	
+	@Override
+	public void addMamber(Member member) {
+		memberDAO.insert(member);
+	}
 
 	public MemberDAO getMemberDAO() {
 		return memberDAO;
@@ -21,5 +26,7 @@ public class MemberServiceImpl implements MemberService {
 	public void setMemberDAO(MemberDAO memberDAO) {
 		this.memberDAO = memberDAO;
 	}
+
+	
 	
 }

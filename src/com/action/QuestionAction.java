@@ -18,22 +18,22 @@ import com.service.question.QuestionService;
 
 public class QuestionAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
+	private String  questionMaterialID,
+					questionType,
+					objectiveAnswer,
+					questionMaterialType,
+					questionMaterialContent,
+					gradeLevel,
+					questionId
+					;
+	private Integer currentPage;
+	private Question question;
+	private Page pageBean;
 	private BaseInfoService baseInfoService;
 	private QuestionService questionService;
-	private String gradeLevel;
 	private List<GradeInfo> gradeInfoList;
 	private List<CourseInfo> courseInfoList;
 	private List<QuestionMaterial> questionMaterialList;
-	private Page pageBean;
-	private Question question;
-	// private QuestionMaterial questionMaterial;
-	private String questionMaterialID;
-	private String questionType;
-	private String objectiveAnswer;
-	private String questionMaterialType;
-	private String questionMaterialContent;
-	private Integer currentPage;
-	private String questionId;
 
 	/** 初始化editQuestion.jsp */
 	public String initQuestion() {

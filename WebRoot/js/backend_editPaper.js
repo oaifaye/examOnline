@@ -19,11 +19,11 @@ $(function() {
 		}
 		
 		$(".itemType").each(function() {
-			if ($(this).attr("checked") == false) {
+			if ($(this).attr("checked") != "checked") {
 				// 变成没选中时，数量、分值清空，文本框不可用
 				$(this).siblings().val("");
 				$(this).siblings().each(function() {
-					$(this).attr("disabled", "disabled");
+					$(this).attr("disabled", true);
 				});
 			} 
 		});
@@ -31,7 +31,7 @@ $(function() {
 	
 // 试题类型，复选框选中与取消事件
 	$(".itemType").click(function() {
-		if ($(this).attr("checked") == false) {
+		if ($(this).attr("checked") != "checked") {
 			// 变成没选中时，数量、分值清空，文本框不可用
 			$(this).siblings().val("");
 			$(this).siblings().each(function() {
@@ -40,7 +40,7 @@ $(function() {
 		} else {
 			// 变成选中时，文本框解除不可用
 			$(this).siblings().each(function() {
-				$(this).attr("disabled", "");
+				$(this).attr("disabled", false);
 			});
 		}
 	});

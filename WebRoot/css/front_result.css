@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.content{
+	font-size:14px;
+	font-weight: 600;
+}
+
+.textarea {
+	width: 500px;
+	height: 200px;
+	margin-top: 20px;
+	display: block;
+}

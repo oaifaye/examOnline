@@ -91,13 +91,13 @@
 			<tr>
 				<td class="tdLeft">总题数</td>
 				<td class="tdRight">
-					<s:textfield id="allNum" name="paper.allNum" readonly="readonly" ></s:textfield>
+					<s:textfield id="allNum" name="paper.allNum" readonly="true" ></s:textfield>
 				</td>
 			</tr>
 			<tr>
 				<td class="tdLeft">总分数</td>
 				<td class="tdRight">
-					<s:textfield id="allScore" name="paper.allScore" readonly="readonly" ></s:textfield>
+					<s:textfield id="allScore" name="paper.allScore" readonly="true" ></s:textfield>
 				</td>
 			</tr>
 			<tr>

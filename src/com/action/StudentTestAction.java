@@ -2,33 +2,42 @@ package com.action;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.model.Member;
 import com.model.Paper;
 import com.model.Question;
+import com.model.StudyCondition;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.service.paper.PaperService;
 import com.service.question.QuestionService;
+import com.service.studyCondition.StudyConditionService;
 
 public class StudentTestAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
-	private String paperId;
+	private String  paperId, 
+					userName,//作为Session中paper的索引
+					tempAnswer
+					;
+	
+	private int itemNumSingle,
+				itemScoreSingle,
+				itemNumDouble,
+				itemScoreDouble,
+				itemNumSubjective,
+				itemScoreSubjective,
+				currentIndex,
+				needIndex,
+				lastScore
+				;
+	
+	private Question question;
+	private Paper paper;
 	private PaperService paperService;
 	private QuestionService questionService;
-	private Paper paper;
-	private int itemNumSingle;
-	private int itemScoreSingle;
-	private int itemNumDouble;
-	private int itemScoreDouble;
-	private int itemNumSubjective;
-	private int itemScoreSubjective;
-	private List<Question> questionList;
-	private int currentIndex;
-	private int needIndex;
-	private Question question;
-	private String tempAnswer;
-	private int lastScore;
+	private StudyConditionService studyConditionService;
 	private List<String> questionTypeList=new ArrayList<String>();
+	private List<Question> questionList;
+	
 
 // 初始化试卷
 	public String initPaper() {
@@ -36,27 +45,10 @@ public class StudentTestAction extends ActionSupport {
 		paper = initQuestionListInSession();
 		if (paper.getQuestionList().size() > 0) {
 			String[] itemTypeArray = paper.getItemType().split(",");
-//			String[] itemNumArray = paper.getItemNum().split(",");
-//			String[] itemScoreArray = paper.getItemScore().split(",");
 			questionTypeList.clear();
 			for(String s:itemTypeArray){
 				questionTypeList.add(s);
 			}
-			// 提取各个类型试题的题数与分数
-//			for (int i = 0; i < itemTypeArray.length; i++) {
-//				if (itemTypeArray[i].equals("0")) {
-//					itemNumSingle = Integer.parseInt(itemNumArray[i]);
-//					itemScoreSingle = Integer.parseInt(itemScoreArray[i]);
-//				}
-//				if (itemTypeArray[i].equals("1")) {
-//					itemNumDouble = Integer.parseInt(itemNumArray[i]);
-//					itemScoreDouble = Integer.parseInt(itemScoreArray[i]);
-//				}
-//				if (itemTypeArray[i].equals("2")) {
-//					itemNumSubjective = Integer.parseInt(itemNumArray[i]);
-//					itemScoreSubjective = Integer.parseInt(itemScoreArray[i]);
-//				}
-//			}
 			question = paper.getQuestionList().get(0);
 			
 			// 初始化hidden
@@ -65,7 +57,6 @@ public class StudentTestAction extends ActionSupport {
 		}else{
 			return "exception";
 		}
-		
 	}
 
 // 下一题
@@ -98,7 +89,6 @@ public class StudentTestAction extends ActionSupport {
 			// 开始准备下一题
 			if (currentIndex > 0 && currentIndex <= questionList.size() - 1) {
 				currentIndex = currentIndex - 1;
-
 			} else {
 				currentIndex = 0;
 			}
@@ -148,13 +138,25 @@ public class StudentTestAction extends ActionSupport {
 					lastScore += q.getScore();
 				}
 			}
-			ActionContext.getContext().getSession().remove("paper");
+		//记录成绩
+			StudyCondition studyCondition = new StudyCondition();
+			Member member = (Member)ActionContext.getContext().getSession().get("member");
+			//获取paper
+			gainPaperInSession();
+			studyCondition.setStudentID(member.getId());
+			studyCondition.setCourseID(paper.getCourseID());
+			studyCondition.setGradeID(paper.getGradeID());
+			studyCondition.setPaperID(paper.getId());
+			studyCondition.setScore(lastScore);
+			studyCondition.setIsDelete("1");
+			studyConditionService.addStudyCondition(studyCondition);
+			
+			ActionContext.getContext().getSession().remove(userName);
 			return "initResult";
 		} else {
 			lastScore = 0;
 			return "listPaper";
 		}
-
 	}
 
 // 初始化result.jsp，以免刷新后跳转别处
@@ -165,14 +167,16 @@ public class StudentTestAction extends ActionSupport {
 // 退出答题
 	public String quitPaper() {
 		questionList = null;
-		ActionContext.getContext().getSession().remove("paper");
+		userName=String.valueOf(ActionContext.getContext().getSession().get("member"));
+		if(userName!=null){
+			ActionContext.getContext().getSession().remove(userName);
+		}
 		return "listPaper";
 	}
 
 // 记住本题答案（调用方法）
-	public void controlQuestion() {
+	private void controlQuestion() {
 		if (currentIndex >= 0 && currentIndex < questionList.size()) {
-
 			if (tempAnswer != null) {
 				// 记住本题答案
 				Question q = questionList.get(currentIndex);
@@ -183,7 +187,6 @@ public class StudentTestAction extends ActionSupport {
 					q.setTempAnswer(tempAnswer);
 				}
 				// 记住本题答案
-
 				questionList.set(currentIndex, q);
 			}
 		}
@@ -191,37 +194,46 @@ public class StudentTestAction extends ActionSupport {
 	}
 
 // 答题时从Session中获取questionList（调用方法）
-	public List<Question> gainQuestionListInSession() {
-		Paper paperInSession = (Paper) ActionContext.getContext().getSession()
-				.get("paper");
+	private List<Question> gainQuestionListInSession() {
+		gainPaperInSession();
+		
 		// 判断questionList是否在Session中
-		if (paperInSession != null && paperInSession.getQuestionList() != null) {
-			questionList = paperInSession.getQuestionList();
+		if (paper != null && paper.getQuestionList() != null) {
+			questionList = paper.getQuestionList();
 		} else {
 			questionList = null;
 		}
 		return questionList;
 	}
 
-// 获取Session中的questionList，如Session中没有paper，新建一个paper（调用方法）
-	public Paper initQuestionListInSession() {
-		paper = (Paper) ActionContext.getContext().getSession().get("paper");
+// 初始化页面时，获取Session中的questionList，如Session中没有paper，新建一个paper（调用方法）
+	private Paper initQuestionListInSession() {
+		gainPaperInSession();
 		// 判断questionList是否在Session中
 		if (paper != null && paper.getQuestionList() != null) {
 			questionList = paper.getQuestionList();
 			// Session中有，但paper的id有变化（新的一张试卷）
 			if (!paper.getId().equals(paperId)) {
 				paper = paperService.initPaper(paperId);
-				ActionContext.getContext().getSession().put("paper", paper);
+				ActionContext.getContext().getSession().put(userName, paper);
 			}
 		} else {
 			// 在Session中新建一个paper(只在初始化才会用到)
 			paper = paperService.initPaper(paperId);
-			ActionContext.getContext().getSession().put("paper", paper);
+			ActionContext.getContext().getSession().put(userName, paper);
 		}
 		return paper;
 	}
-
+	
+//从Session中根据“member”获取paper（调用方法）
+	private void gainPaperInSession(){
+		Member member=(Member) ActionContext.getContext().getSession().get("member");
+		userName=member.getUserName();
+		if(null!=userName){
+			paper = (Paper) ActionContext.getContext().getSession()
+					.get(userName);
+		}
+	} 
 	// ================================================================================================
 	public String getPaperId() {
 		return paperId;
@@ -245,6 +257,14 @@ public class StudentTestAction extends ActionSupport {
 
 	public void setQuestionService(QuestionService questionService) {
 		this.questionService = questionService;
+	}
+
+	public StudyConditionService getStudyConditionService() {
+		return studyConditionService;
+	}
+
+	public void setStudyConditionService(StudyConditionService studyConditionService) {
+		this.studyConditionService = studyConditionService;
 	}
 
 	public Paper getPaper() {

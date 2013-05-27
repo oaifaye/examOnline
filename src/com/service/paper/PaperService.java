@@ -16,5 +16,5 @@ public interface PaperService {
 	
 	public void updatePaper(Paper paper);
 	// 学员答题时，初始化试卷
-		public Paper initPaper(String paperId);
+	public Paper initPaper(String paperId);
 }

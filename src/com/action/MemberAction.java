@@ -1,8 +1,11 @@
 package com.action;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.util.Assert;
 
 import com.model.Member;
 import com.opensymphony.xwork2.ActionContext;
@@ -12,11 +15,15 @@ import com.service.member.MemberService;
 public class MemberAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	private String  userName,
+					password
+					;
 	
 	private MemberService memberService;
-	private String userName;
-	private String password;
+	private Member member;
 	
+	
+//会员登陆
 	public String login(){
 		if(!(null==userName||("").equals(userName)||null==password||("").equals(password))){
 			Map<String, Object> params = new HashMap<String, Object>();
@@ -35,6 +42,18 @@ public class MemberAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+	
+//注册
+	public String register(){
+		try{
+			Assert.notNull(member);
+			member.setCreateDate(new Date());
+			memberService.addMamber(member);
+			return SUCCESS;
+		}catch(Exception e){
+			return ERROR;
+		}
+	}
 
 	public MemberService getMemberService() {
 		return memberService;
@@ -42,6 +61,14 @@ public class MemberAction extends ActionSupport {
 
 	public void setMemberService(MemberService memberService) {
 		this.memberService = memberService;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
 	}
 
 	public String getUserName() {

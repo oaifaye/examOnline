@@ -110,7 +110,7 @@ public class PaperServiceImpl implements PaperService {
 	}
 	
 	//用试卷中某类型试题的数量随机出List<Question>  (调用方法)
-	public List<Question> findQuestionByNum(String sqlids,int itemNum,Map<String, Object> params){
+	private List<Question> findQuestionByNum(String sqlids,int itemNum,Map<String, Object> params){
 		//为随机准备最大数
 		int allRow = questionDAO.findRowNum(sqlids, params);
 		RandomUtil random = new RandomUtil(allRow, itemNum);

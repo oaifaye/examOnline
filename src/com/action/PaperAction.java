@@ -20,25 +20,26 @@ import com.service.paper.PaperService;
 public class PaperAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
-	private String gradeLevel;
+	private String  singleType,
+					itemNumSingle,
+					itemScoreSingle,
+					doubleType,
+					itemNumDouble,
+					itemScoreDouble,
+					subjectiveType,
+					itemNumSubjective,
+					itemScoreSubjective,
+					paperId,
+					gradeLevel
+					;
+	
+	private Paper paper;
+	private Page pageBean;
+	private Integer currentPage;
 	private BaseInfoService baseInfoService;
 	private PaperService paperService;
 	private List<GradeInfo> gradeInfoList;
 	private List<CourseInfo> courseInfoList;
-	private Paper paper;
-	private Page pageBean;
-	private Integer currentPage;
-	private String singleType;
-	private String itemNumSingle;
-	private String itemScoreSingle;
-	private String doubleType;
-	private String itemNumDouble;
-	private String itemScoreDouble;
-	private String subjectiveType;
-	private String itemNumSubjective;
-	private String itemScoreSubjective;
-	private String paperId;
-	
 
 	/** 初始化editPaper.jsp */
 	public String initPaper() {

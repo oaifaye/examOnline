@@ -28,6 +28,7 @@ public class DisplayTag_Frontend_PaperList extends TagSupport {
 		PaperService paperService = (PaperService) wc.getBean("paperService");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("gradeLevel", gradeLevel);
+		params.put("isRelease", "0");
 		params.put("isDelete", "1");
 		List<Paper> pageList = paperService.queryForPage(params, 1, 5).getList();
 		
